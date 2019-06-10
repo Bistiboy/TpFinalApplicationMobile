@@ -1,8 +1,8 @@
 package com.example.tpfinalapplicationmobile
 
+import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import android.util.Log
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
@@ -10,10 +10,24 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.view.Menu
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.tpfinalapplicationmobile.adapter.ShoppingListAdapter
+import com.example.tpfinalapplicationmobile.fragments.AgendaFragment
+import com.example.tpfinalapplicationmobile.fragments.ExpenseFragment
+import com.example.tpfinalapplicationmobile.fragments.HomeFragment
+import com.example.tpfinalapplicationmobile.fragments.ShoppingListFragment
+import com.example.tpfinalapplicationmobile.models.MyList
+import com.example.tpfinalapplicationmobile.services.MyCallback
+import com.example.tpfinalapplicationmobile.services.ShoppingListService
+import com.example.tpfinalapplicationmobile.utils.LocaleHelper
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.shopping_list_main.*
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private var mLanguageCode = "en"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,11 +35,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -35,6 +44,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
+
+        val homeFragment = HomeFragment()
+        val manager = supportFragmentManager
+
+        val transaction = manager.beginTransaction()
+
+        transaction.replace(R.id.fragment_container, homeFragment)
+        transaction.addToBackStack(null)
+
+        transaction.commit()
     }
 
     override fun onBackPressed() {
@@ -46,46 +65,80 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
+    // Menu
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
+
+        val manager = supportFragmentManager
+        val utils = LocaleHelper()
+
+
         when (item.itemId) {
             R.id.nav_home -> {
-                // Handle the camera action
+                val homeFragment = HomeFragment()
+
+                val transaction = manager.beginTransaction()
+
+                transaction.replace(R.id.fragment_container, homeFragment)
+                transaction.addToBackStack(null)
+
+                transaction.commit()
             }
-            R.id.nav_gallery -> {
+            R.id.nav_shoppingList -> {
+                val shoppingListFragment = ShoppingListFragment()
+
+                val transaction = manager.beginTransaction()
+
+                transaction.replace(R.id.fragment_container, shoppingListFragment)
+                transaction.addToBackStack(null)
+
+                transaction.commit()
+
+                // var liste = MyList("Nico", "2")
+                // database.child("2").setValue(liste)
 
             }
-            R.id.nav_slideshow -> {
+            R.id.nav_expense -> {
+                val expenseFragment = ExpenseFragment()
+
+                val transaction = manager.beginTransaction()
+
+                transaction.replace(R.id.fragment_container, expenseFragment)
+                transaction.addToBackStack(null)
+
+                transaction.commit()
+            }
+            R.id.nav_agenda -> {
+                val agendaFragment = AgendaFragment()
+
+                val transaction = manager.beginTransaction()
+
+                transaction.replace(R.id.fragment_container, agendaFragment)
+                transaction.addToBackStack(null)
+
+                transaction.commit()
+            }
+            R.id.nav_fr -> {
+
+                mLanguageCode = "fr"
+                utils.setLocale(this, mLanguageCode)
+
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+
 
             }
-            R.id.nav_tools -> {
+            R.id.nav_en -> {
 
-            }
-            R.id.nav_share -> {
+                mLanguageCode = "en"
+                utils.setLocale(this, mLanguageCode)
 
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
-            R.id.nav_send -> {
 
-            }
         }
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        drawerLayout.closeDrawer(GravityCompat.START)
+
+        drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 }

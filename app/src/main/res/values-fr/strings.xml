@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Ma super liste de course</string>
+    <string name="add_shoppinglist_name">Add Shopping List</string>
+    <string name="element_shoppinglist_name">Element Shopping List</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+
+    <!-- Strings from menu and view title -->
+    <string name="home">Accueil</string>
+    <string name="shopping_list">Liste de course</string>
+    <string name="expense">Dépenses</string>
+    <string name="agenda">Calendrier</string>
+    <string name="translate">Traduction</string>
+    <string name="en_en">Anglais</string>
+    <string name="fr_en">Français</string>
+
+
+    <!-- Strings from button -->
+    <string name="btn_back">Retour</string>
+    <string name="btn_confirm">Valider</string>
+    <string name="btn_cancel">Annuler</string>
+
+
+    <!-- Strings from add shopping list form -->
+    <string name="title_form_shopping_list">Nouvelle liste</string>
+    <string name="name_form_shopping_list">Nom</string>
+    <string name="date_form_shopping_list">Date (jj/mm/aaaa)</string>
+    <string name="content_form_shopping_list">Contenu</string>
+
+
+</resources>
